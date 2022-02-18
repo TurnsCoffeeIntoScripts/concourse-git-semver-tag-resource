@@ -31,6 +31,8 @@ resource_types:
    This is needed when only HTTP/HTTPS protocol for git is available (which does not support private key auth) and auth is required.
 
 * `password`: *Optional.* Password for HTTP(S) auth when pulling/pushing.
+  
+* `tag_regex`: *Optional.* Regex used for filtering tags.
 
 ### Example
 
@@ -65,6 +67,20 @@ plan:
   params: {bump: minor}
 - task: a-thing-that-needs-a-version
 ```
+
+### Exemple with *tag_regex*
+```yaml
+resources:
+- name: version
+  type: concourse-git-semver-tag
+  source:
+    uri: git@github.com:concourse/concourse.git
+    branch: version
+    private_key: {{concourse-repo-private-key}}
+    tag_regex: "[[:digit:]]+\\.[[:digit:]]+\\.[[:digit:]]+-rc\\.[[:digit:]]+"
+```
+
+This configuration will only return tags matching the semver format of a release-candidate 'rc' (ex.: 1.0.0-rc.1).
 
 ## Behavior
 
