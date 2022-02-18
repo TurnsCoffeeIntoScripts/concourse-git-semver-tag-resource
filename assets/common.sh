@@ -58,6 +58,7 @@ prepare_repository() {
   uri=$(jq -r '.source.uri // ""' < "$payload")
   branch=$(jq -r '.source.branch // ""' < "$payload")
   git_config_payload=$(jq -r '.source.git_config // []' < "$payload")
+  tag_regex=$(jq -r '.source.tag_regex // ""' <<< "$payload")
 
   configure_git_global "${git_config_payload}"
 
